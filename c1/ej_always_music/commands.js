@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-const {config} = require('./db/config.js');
+const { config } = require('./db/config.js');
 
 /* En db/config.js
 const config = {
@@ -83,28 +83,48 @@ const action = process.argv[2];
 
 if (action == 'mostrar') {
     getStudents();
-} else if (action == 'crear') {
-    let student = {
-        name: process.argv[3],
-        rut: process.argv[4],
-        grade: process.argv[5],
-        level: process.argv[6]
+} else if (action == 'nuevo') {
+    if (process.argv[3] != 'undefined' && process.argv[4] != 'undefined' && process.argv[5] != 'undefined' && process.argv[6] != 'undefined') {
+        let student = {
+            name: process.argv[3],
+            rut: process.argv[4],
+            grade: process.argv[5],
+            level: process.argv[6]
+        }
+        if (student) {
+            newStudent(student.name, student.rut, student.grade, student.level);
+        }
+    } else {
+        console.log("Faltan datos");
     }
-    newStudent(student.name, student.rut, student.grade, student.level);
 } else if (action == 'consulta_rut') {
     const rut = process.argv[3];
-    getStudentByRut(rut);
-} else if (action == 'editar') {
-    let student = {
-        name: process.argv[3],
-        rut: process.argv[4],
-        grade: process.argv[5],
-        level: process.argv[6]
+    if (rut != 'undefined') {
+        getStudentByRut(rut);
+    } else {
+        console.log("No se han pasado los parametros");
     }
-    updateStudent(student.name, student.rut, student.grade, student.level);
+} else if (action == 'editar') {
+    if (process.argv[3] != 'undefined' && process.argv[4] != 'undefined' && process.argv[5] != 'undefined' && process.argv[6] != 'undefined') {
+        let student = {
+            name: process.argv[3],
+            rut: process.argv[4],
+            grade: process.argv[5],
+            level: process.argv[6]
+        }
+        if (student) {
+            updateStudent(student.name, student.rut, student.grade, student.level);
+        }
+    } else {
+        console.log("Faltan datos");
+    }
 } else if (action == 'eliminar') {
     const rut = process.argv[3];
-    deleteStudent(rut);
+    if (rut != 'undefined') {
+        deleteStudent(rut);
+    } else {
+        console.log("No se han pasado los parametros");
+    }
 } else {
     console.log(`La acción ${action} no está implementa`);
 }
