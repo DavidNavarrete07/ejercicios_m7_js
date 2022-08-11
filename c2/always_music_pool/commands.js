@@ -26,7 +26,7 @@ async function getStudentByRut(rut) {
     pool.end();
 }
 
-async function updateStudent(name, grade, level, rut){
+async function updateStudent(name, grade, level, rut) {
     const client = await pool.connect();
     const resp = await client.query(`select * from students where rut='${rut}'`);
     let nameStudent = resp.rows[0].name_student;
@@ -36,7 +36,7 @@ async function updateStudent(name, grade, level, rut){
     pool.end();
 }
 
-async function deleteStudent(rut){
+async function deleteStudent(rut) {
     const client = await pool.connect();
     const resp = await client.query(`select * from students where rut='${rut}'`);
     let nameStudent = resp.rows[0].name_student;
@@ -46,7 +46,7 @@ async function deleteStudent(rut){
     pool.end();
 }
 
-async function approveStudent(rut){
+async function approveStudent(rut) {
     const client = await pool.connect();
     const respLevel = await client.query(`select * from students where rut='${rut}'`);
     let level = respLevel.rows[0].level;
@@ -69,10 +69,18 @@ if (action == 'mostrar') {
         grade: process.argv[5].trim(),
         level: process.argv[6].trim()
     }
-    newStudent(student.name, student.rut, student.grade, student.level);
+    try {
+        newStudent(student.name, student.rut, student.grade, student.level);
+    } catch (error) {
+        console.log("Surgió un error: " + erro);
+    }
 } else if (action == 'consulta_rut') {
     const rut = process.argv[3];
-    getStudentByRut(rut);
+    try {
+        getStudentByRut(rut);
+    } catch (error) {
+        console.log("Surgió un error: " + error);
+    }
 } else if (action == 'editar') {
     let student = {
         name: process.argv[3].trim(),
@@ -80,13 +88,25 @@ if (action == 'mostrar') {
         level: process.argv[5].trim(),
         rut: process.argv[6].trim()
     }
-    updateStudent(student.name, student.grade, student.level, student.rut);
+    try {
+        updateStudent(student.name, student.grade, student.level, student.rut);
+    } catch (error) {
+        console.log("Surgió un error: " + error);
+    }
 } else if (action == 'eliminar') {
     const rut = process.argv[3];
-    deleteStudent(rut);
-}else if(action == 'aprobar'){
+    try {
+        deleteStudent(rut);
+    } catch (error) {
+        console.log("Surgió un error: " + error);
+    }
+} else if (action == 'aprobar') {
     const rut = process.argv[3].trim();
-    approveStudent(rut);
+    try {
+        approveStudent(rut);
+    } catch (error) {
+        console.log("Surgió un error: " + error);
+    }
 } else {
     console.log(`La acción ${action} no está implementa`);
 }
