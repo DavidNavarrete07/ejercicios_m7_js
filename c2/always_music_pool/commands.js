@@ -83,17 +83,26 @@ async function approveStudent(rut) {
 // Acciones
 
 const action = process.argv[2];
-
+let length = process.argv.length;
 if (action == 'mostrar') {
-    getStudents();
-} else if (action == 'nuevo') {
-    let student = {
-        name: process.argv[3].trim(),
-        rut: process.argv[4].trim(),
-        grade: process.argv[5].trim(),
-        level: process.argv[6].trim()
+    if (length == 3) {
+        getStudents();
+    } else {
+        console.log("Intente con el comando: node commands.js mostrar");
     }
-    newStudent(student.name, student.rut, student.grade, student.level);
+} else if (action == 'nuevo') {
+    console.log(length);
+    if (length == 7 & process.argv[3].trim() != 'undefined' & !process.argv[4].trim() != 'undefined' & !process.argv[5].trim() != 'undefined' & (!process.argv[6] != null & process.argv[6] > 0)) {
+        let student = {
+            name: process.argv[3].trim(),
+            rut: process.argv[4].trim(),
+            grade: process.argv[5].trim(),
+            level: process.argv[6].trim()
+        }
+        newStudent(student.name, student.rut, student.grade, student.level);
+    } else {
+        console.log("Los parametros son mayor a la cantidad requerida o faltan datos\nIntente con el comando: node commands.js nuevo {nombre} {rut} {grado} {nivel}");
+    }
 } else if (action == 'consulta_rut') {
     const rut = process.argv[3];
     getStudentByRut(rut);
