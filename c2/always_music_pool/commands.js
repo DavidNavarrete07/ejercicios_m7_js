@@ -7,7 +7,11 @@ const pool = new Pool(config);
  * Función para mostrar todos los estudiantes en formato de arreglo de arreglos
  */
 async function getStudents() {
-    const client = await pool.connect();
+    try {
+        const client = await pool.connect();
+    } catch (error) {
+        console.log("Error conectando a la BD: " + error);
+    }
     try {
         const resp = await client.query({
             text: 'select * from students order by name_student',
@@ -30,7 +34,11 @@ async function getStudents() {
  * @param {*} level nivel del estudiante
  */
 async function newStudent(name, rut, grade, level) {
-    const client = await pool.connect();
+    try {
+        const client = await pool.connect();
+    } catch (error) {
+        console.log("Error conectando a la BD: " + error);
+    }
     try {
         const resp = await client.query({
             text: `insert into students (name_student, rut, grade, level) values ($1, $2, $3, $4) returning *`,
@@ -49,7 +57,11 @@ async function newStudent(name, rut, grade, level) {
  * @param {*} rut rut del estudiante
  */
 async function getStudentByRut(rut) {
-    const client = await pool.connect();
+    try {
+        const client = await pool.connect();
+    } catch (error) {
+        console.log("Error conectando a la BD: " + error);
+    }
     try {
         const resp = await client.query({
             text: `select * from students where rut=$1`,
@@ -72,7 +84,11 @@ async function getStudentByRut(rut) {
  * @param {*} rut rut del estudiante a modificar
  */
 async function updateStudent(name, grade, level, rut) {
-    const client = await pool.connect();
+    try {
+        const client = await pool.connect();
+    } catch (error) {
+        console.log("Error conectando a la BD: " + error);
+    }
     try {
         const resp = await client.query({
             text: `select * from students where rut=$1`,
@@ -98,7 +114,11 @@ async function updateStudent(name, grade, level, rut) {
  * @param {*} rut rut del estudiante a eliminar
  */
 async function deleteStudent(rut) {
-    const client = await pool.connect();
+    try {
+        const client = await pool.connect();
+    } catch (error) {
+        console.log("Error conectando a la BD: " + error);
+    }
     try {
         const resp = await client.query({
             text: `select * from students where rut=$1`,
@@ -124,7 +144,11 @@ async function deleteStudent(rut) {
  * @param {*} rut rut del estudiante a aprobar
  */
 async function approveStudent(rut) {
-    const client = await pool.connect();
+    try {
+        const client = await pool.connect();
+    } catch (error) {
+        console.log("Error conectando a la BD: " + error);
+    }
     try {
         const respLevel = await client.query({
             text: `select * from students where rut=$1`,
