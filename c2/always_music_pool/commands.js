@@ -3,10 +3,17 @@ const { config } = require('./db/config');
 
 const pool = new Pool(config);
 
+/**
+ * Función para mostrar todos los estudiantes en formato de arreglo de arreglos
+ */
 async function getStudents() {
     const client = await pool.connect();
     try {
-        const resp = await client.query('select * from students order by name_student');
+        const resp = await client.query({
+            text: 'select * from students order by name_student',
+            rowMode: 'array',
+            name: 'Show students in array of arrays'
+        });
         console.log(resp.rows);
     } catch (error) {
         console.log("Error en la consulta: " + error);
@@ -15,10 +22,21 @@ async function getStudents() {
     pool.end();
 }
 
+/**
+ * Función para agregar un nuevo estudiante
+ * @param {*} name nombre del estudiante
+ * @param {*} rut rut del estudiante
+ * @param {*} grade curso del estudiante
+ * @param {*} level nivel del estudiante
+ */
 async function newStudent(name, rut, grade, level) {
     const client = await pool.connect();
     try {
-        const resp = await client.query(`insert into students (name_student, rut, grade, level) values ('${name}', '${rut}', '${grade}', ${level}) returning *`)
+        const resp = await client.query({
+            text: `insert into students (name_student, rut, grade, level) values ($1, $2, $3, $4) returning *`,
+            values: [name, rut, grade, level],
+            name: 'Add student'
+        });
     } catch (error) {
         console.log("Error en la consulta: " + error);
     }
@@ -26,10 +44,18 @@ async function newStudent(name, rut, grade, level) {
     pool.end();
 }
 
+/**
+ * Función para mostrar los datos de un estudiante según su rut
+ * @param {*} rut rut del estudiante
+ */
 async function getStudentByRut(rut) {
     const client = await pool.connect();
     try {
-        const resp = await client.query(`select * from students where rut='${rut}'`);
+        const resp = await client.query({
+            text: `select * from students where rut=$1`,
+            values: [rut],
+            name: 'Delete student'
+        });
         console.log(resp.rows);
     } catch (error) {
         console.log("Error en la consulta: " + error);
@@ -38,12 +64,27 @@ async function getStudentByRut(rut) {
     pool.end();
 }
 
+/**
+ * Función para actualizar los datos de un estudiante
+ * @param {*} name nombre del estudiante
+ * @param {*} grade curso del estudiante
+ * @param {*} level nivel del estudiante
+ * @param {*} rut rut del estudiante a modificar
+ */
 async function updateStudent(name, grade, level, rut) {
     const client = await pool.connect();
     try {
-        const resp = await client.query(`select * from students where rut='${rut}'`);
+        const resp = await client.query({
+            text: `select * from students where rut=$1`,
+            values: [rut],
+            name: 'Search data of student'
+        });
         let nameStudent = resp.rows[0].name_student;
-        const respUpdate = await client.query(`update students set name_student ='${name}', grade='${grade}', level=${level} where rut='${rut}'`);
+        const respUpdate = await client.query({
+            text: `update students set name_student=$1, grade=$2, level=$3 where rut=$4`,
+            values: [name, grade, level, rut],
+            name: 'Update student'
+        });
         console.log(`El/La estudiante ${nameStudent} se ha editado con éxito`);
     } catch (error) {
         console.log("Error en la consulta: " + error);
@@ -52,12 +93,24 @@ async function updateStudent(name, grade, level, rut) {
     pool.end();
 }
 
+/**
+ * Función para eliminar un estudiante
+ * @param {*} rut rut del estudiante a eliminar
+ */
 async function deleteStudent(rut) {
     const client = await pool.connect();
     try {
-        const resp = await client.query(`select * from students where rut='${rut}'`);
+        const resp = await client.query({
+            text: `select * from students where rut=$1`,
+            values: [rut],
+            name: 'Search data of student'
+        });
         let nameStudent = resp.rows[0].name_student;
-        const respDelete = await client.query(`delete from students where rut='${rut}'`);
+        const respDelete = await client.query({
+            text: `delete from students where rut=$1`,
+            values: [rut],
+            name: 'Delete student'
+        });
         console.log(`El/La estudiante ${nameStudent} se eliminó con éxito`);
     } catch (error) {
         console.log("Error en la consulta: " + error);
@@ -66,13 +119,25 @@ async function deleteStudent(rut) {
     pool.end();
 }
 
+/**
+ * Función para aprobar un estudiante
+ * @param {*} rut rut del estudiante a aprobar
+ */
 async function approveStudent(rut) {
     const client = await pool.connect();
     try {
-        const respLevel = await client.query(`select * from students where rut='${rut}'`);
+        const respLevel = await client.query({
+            text: `select * from students where rut=$1`,
+            values: [rut],
+            name: 'Search student level'
+        });
         let level = respLevel.rows[0].level;
         level++;
-        const resp = await client.query(`update students set level=${level} where rut='${rut}'`);
+        const resp = await client.query({
+            text: `update students set level=$1 where rut=$2`,
+            values: [level, rut],
+            name: 'Approve student'
+        });
     } catch (error) {
         console.log("Error en la consulta: " + error);
     }
