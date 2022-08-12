@@ -7,8 +7,9 @@ const pool = new Pool(config);
  * Función para mostrar todos los estudiantes en formato de arreglo de arreglos
  */
 async function getStudents() {
+    let client;
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
     } catch (error) {
         console.log("Error conectando a la BD: " + error);
     }
@@ -34,8 +35,9 @@ async function getStudents() {
  * @param {*} level nivel del estudiante
  */
 async function newStudent(name, rut, grade, level) {
+    let client;
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
     } catch (error) {
         console.log("Error conectando a la BD: " + error);
     }
@@ -57,8 +59,9 @@ async function newStudent(name, rut, grade, level) {
  * @param {*} rut rut del estudiante
  */
 async function getStudentByRut(rut) {
+    let client;
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
     } catch (error) {
         console.log("Error conectando a la BD: " + error);
     }
@@ -84,8 +87,9 @@ async function getStudentByRut(rut) {
  * @param {*} rut rut del estudiante a modificar
  */
 async function updateStudent(name, grade, level, rut) {
+    let client;
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
     } catch (error) {
         console.log("Error conectando a la BD: " + error);
     }
@@ -114,8 +118,9 @@ async function updateStudent(name, grade, level, rut) {
  * @param {*} rut rut del estudiante a eliminar
  */
 async function deleteStudent(rut) {
+    let client;
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
     } catch (error) {
         console.log("Error conectando a la BD: " + error);
     }
@@ -144,8 +149,9 @@ async function deleteStudent(rut) {
  * @param {*} rut rut del estudiante a aprobar
  */
 async function approveStudent(rut) {
+    let client;
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
     } catch (error) {
         console.log("Error conectando a la BD: " + error);
     }
