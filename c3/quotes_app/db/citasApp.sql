@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS quotes_app;
+DROP TABLE IF EXISTS quotes;
+CREATE TABLE quotes(
+    id SERIAL, 
+    author VARCHAR(255) NOT NULL, 
+    phrase VARCHAR(700) NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY(id)
+);
