@@ -4,12 +4,46 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Quotes App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
+    <!-- Modal -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar cita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/quotes" method="POST">
+                        <div class="mb-3">
+                            <label for="author" class="form-label fw-bold">Autor</label>
+                            <input type="text" id="authorQuote" name="author" class="form-control" placeholder="Autor de la cita"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <textarea class="form-control" id="phraseQuote" name="quote" placeholder="Ingrese la cita"
+                                    style="height: 100px" required></textarea>
+                                <label for="floatingTextarea2" class="fw-bold">Ingrese la cita</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnUpdateQuote" class="btn btn-primary">Editar <i class="bi bi-pencil-fill"></i></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar <i class="bi bi-x-circle-fill"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal -->
     <div class="container">
         <h1 class="text-center fw-bold text-uppercase py-5">Servidor de "citas"</h1>
         <div class="row">
@@ -33,7 +67,7 @@
             <div class="col-6">
                 <h3 class="text-uppercase fw-bold">Lista de "citas"</h3>
                 <ul class="list-group" id="list-quotes">
-                    
+
                 </ul>
             </div>
         </div>
@@ -41,7 +75,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
-    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.26/dist/sweetalert2.all.min.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>
