@@ -15,10 +15,11 @@ app.get('/quotes', async (req, res) => {
 
 // POST
 app.post('/quotes', async (req, res) => {
-  if (req.body.author != 'undefined' & req.body.phrase != 'undefined') {
+  const form = await f.getForm(req);
+  if (form.author != 'undefined' & form.phrase != 'undefined') {
     let quote = {
-      author: req.body.author.trim(),
-      phrase: req.body.quote.trim()
+      author: form.author.trim(),
+      phrase: form.phrase.trim()
     }
     let resp = await addQuote(quote);
     if (resp.rowCount == 1) {
