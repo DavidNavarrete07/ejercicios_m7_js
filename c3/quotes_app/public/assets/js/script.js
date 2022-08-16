@@ -101,37 +101,39 @@ btnAdd.addEventListener('click', function () {
     let authorQuote = document.querySelector('#authorQuoteAdd').value.trim();
     let phraseQuote = document.querySelector('#phraseQuoteAdd').value.trim();
 
-    Swal.fire({
-        title: '¿Está seguro de agregar esta cita?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: 'blue',
-        cancelButtonColor: 'grey',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Sí, agregar'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            const resp = await fetch(`/quotes`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    author: authorQuote,
-                    phrase: phraseQuote
-                }),
-            });
-            if (resp.status === 200) {
-                Swal.fire(
-                    'Agregado!',
-                    'La cita se ha agregado',
-                    'success'
-                );
-                document.querySelector('#authorQuoteAdd').value = '';
-                document.querySelector('#phraseQuoteAdd').value = '';
-                getQuotes();
+    if (authorQuote.length != 0 & phraseQuote.length != 0) {
+        Swal.fire({
+            title: '¿Está seguro de agregar esta cita?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'blue',
+            cancelButtonColor: 'grey',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, agregar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const resp = await fetch(`/quotes`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        author: authorQuote,
+                        phrase: phraseQuote
+                    }),
+                });
+                if (resp.status === 200) {
+                    Swal.fire(
+                        'Agregado!',
+                        'La cita se ha agregado',
+                        'success'
+                    );
+                    document.querySelector('#authorQuoteAdd').value = '';
+                    document.querySelector('#phraseQuoteAdd').value = '';
+                    getQuotes();
+                }
+            } else {
+                return;
             }
-        } else {
-            return;
-        }
-    });
+        });
+    }
 });
 
 getQuotes();
