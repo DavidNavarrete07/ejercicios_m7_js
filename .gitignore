@@ -1,3 +1,4 @@
 **/node_modules
 /vsc
 **/db/config.js
+**/Sequelize/config.js
